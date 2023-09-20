@@ -1,0 +1,30 @@
+Watching for file changes with StatReloader
+"GET /about/ HTTP/1.1" 200 8
+"GET /about/ HTTP/1.1" 200 8
+"GET / HTTP/1.1" 200 13
+"GET /about/ HTTP/1.1" 200 8
+C:\Users\odaro\pythonProject\DjangoGeelbrains\Seminar1\First\Sem1\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\odaro\pythonProject\DjangoGeelbrains\Seminar1\First\Sem1\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\odaro\pythonProject\DjangoGeelbrains\Seminar1\First\Sem1\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\odaro\pythonProject\DjangoGeelbrains\Seminar1\First\Sem1\views.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\odaro\pythonProject\DjangoGeelbrains\Seminar1\First\First\settings.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /about/ HTTP/1.1" 200 8
+"GET /about/ HTTP/1.1" 200 8
+Index page accessed
+"GET / HTTP/1.1" 200 13
+"GET /about/ HTTP/1.1" 200 8
+C:\Users\odaro\pythonProject\DjangoGeelbrains\Seminar1\First\First\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\odaro\pythonProject\DjangoGeelbrains\Seminar1\First\First\settings.py changed, reloading.
+Watching for file changes with StatReloader
+C:\Users\odaro\pythonProject\DjangoGeelbrains\Seminar1\First\First\settings.py changed, reloading.
+INFO 2023-09-20 10:29:23,075 autoreload 9428 10268 Watching for file changes with StatReloader
+INFO 2023-09-20 10:29:41,209 basehttp 9428 23792 "GET /about/ HTTP/1.1" 200 8
+INFO 2023-09-20 10:29:41,922 basehttp 9428 13624 "GET /about/ HTTP/1.1" 200 8
+INFO 2023-09-20 10:29:42,793 views 9428 13624 Index page accessed
+INFO 2023-09-20 10:29:42,794 basehttp 9428 13624 "GET / HTTP/1.1" 200 13
