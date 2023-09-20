@@ -43,6 +43,7 @@ def index(request):
                 <a href="#" class="btn" style="display: inline-block;padding: 10px 20px;background-color: #333;color: #fff;text-decoration: none;border-radius: 5px;">Подробнее</a>
             </div>
             <!-- Добавьте другие товары -->
+            
         </section>
     </main>
     <footer style=" background-color: #333;color: #fff;padding: 20px;text-align: center;">
