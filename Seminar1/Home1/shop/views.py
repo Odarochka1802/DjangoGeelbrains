@@ -2,89 +2,125 @@ import logging
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.generic import DetailView
+
+from shop.models import Client, Product, Order
 
 # Create your views here.
 logger = logging.getLogger(__name__)
+menu = [
+    {'title': "Главная", 'url_name': 'home'},
+    {'title': "Каталог", 'url_name': 'catalog'},
+    {'title': "О нас", 'url_name': 'about'},
+    {'title': "Контакты", 'url_name': 'contact'}
+]
 
 
 def index(request):
     logger.info("OK")
-    info = """
-    <!DOCTYPE html>
-<html>
-<head>
-    <title>Название вашего интернет-магазина</title>
-    <link rel="stylesheet" href="style.css"> <!-- Подключение внешнего CSS-файла для стилизации страницы -->
-</head>
-<body style="font-family: Arial, sans-serif;line-height: 1.5;background-color: #f5f5f5;  margin: 0;padding: 0;box-sizing: border-box">
-    <header style="background-color: #333;padding: 20px;color: #fff;">
-        <h1 style="margin-bottom: 10px;">Добро пожаловать в наш интернет-магазин!</h1>
-        <nav>
-            <ul style="list-style-type: none;">
-                <li style="display: inline-block;margin-right: 15px;"><a style="text-decoration: none;color: #fff;" href="#">Главная</a></li>
-                <li style="display: inline-block;margin-right: 15px;><a  style="text-decoration: none;color: #fff;" href="#">Каталог</a></li>
-                <li style="display: inline-block;margin-right: 15px;><a  style="text-decoration: none;color: #fff;" href="#">О нас</a></li>
-                <li style="display: inline-block;margin-right: 15px;><a  style="text-decoration: none;color: #fff;" href="#">Контакты</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main style="padding: 20px;">
-        <section class="banner" style="margin-bottom: 30px; background-color: #f9f9f9;padding: 30px;text-align: center;">
-            <h2 style="margin-bottom: 10px;">Акционные предложения!</h2>
-            <p style="margin-bottom: 20px;">У нас есть лучшие товары по низким ценам. Поторопитесь сделать заказ!</p>
-            <a href="#" class="btn" style="display: inline-block;padding: 10px 20px;background-color: #333;color: #fff;text-decoration: none;border-radius: 5px;">Купить сейчас</a>
-        </section>
-        <section class="featured-products" style="display: flex;flex-wrap: wrap;">
-            <h2 style="margin-bottom: 10px;">Популярные товары</h2>
-            <div class="product" style="width: 25%;padding: 10px;text-align: center;>
-                <img src="product1.jpg" alt="Товар 1" style="width: 100%;max-height: 200px;object-fit: cover;margin-bottom: 10px;">
-                <h3 style="margin-bottom: 5px;">Название товара</h3>
-                <p style="margin-bottom: 20px;">Цена: $99.99</p>
-                <a href="#" class="btn" style="display: inline-block;padding: 10px 20px;background-color: #333;color: #fff;text-decoration: none;border-radius: 5px;">Подробнее</a>
-            </div>
-            <!-- Добавьте другие товары -->
-            
-        </section>
-    </main>
-    <footer style=" background-color: #333;color: #fff;padding: 20px;text-align: center;">
-        <p>&copy; 2023 Мой интернет-магазин. Все права принадлежат мне))).</p>
-        </div>
-    </footer>
-</body>
-</html>
-    """
-    return HttpResponse(info)
+
+    return render(request, 'shop/index.html')
+
+
+def catalog(request):
+    logger.info("catalog")
+    products = Product.objects.all()
+    return render(request, 'shop/catalog.html',{'products':products})
 
 
 def about(request):
     logger.info("about")
-    info = """<!DOCTYPE HTML>
-<html>
- <head>
-  <meta charset="utf-8">
-  <title>Тег А, атрибут target</title>
- </head>
- <body>
- <div style="width: 90%; border: 1px solid #333; box-shadow: 8px 8px 5px #444; padding: 8px 12px; background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc)"> 
- <h1>Добро пожаловать в наш интернет-магазин!</h1>
-</div>
- <div class="container">
-  <p style="padding: 20px;">Здесь вы найдете широкий выбор качественных товаров по отличным ценам. <br>Наш интернет-магазин предлагает разнообразие 
-  продуктов для всех возрастных категорий и интересов. У нас вы можете найти модную одежду, стильные аксессуары, косметику, 
-  товары для дома, электронику и многое другое. Мы тщательно подбираем товары, чтобы обеспечить высокое качество и удовлетворить потребности наших клиентов.</p>
-<p>Независимо от того, что вас интересует - модный стиль, функциональность или красота - наш интернет-магазин предлагает 
-разнообразие опций для удовлетворения ваших потребностей. Мы постоянно обновляем наш ассортимент, чтобы предложить вам новые и новейшие товары.</p>
-<p>Мы стремимся предоставить непревзойденный уровень обслуживания наших клиентов. Наша команда всегда готова помочь вам в 
-выборе товара, ответить на ваши вопросы и обеспечить приятный опыт покупок в нашем магазине.</p>
-<p>Оформление заказа у нас легкое и безопасное. Мы гарантируем безопасность ваших платежей и конфиденциальность вашей информации.</p>
-<p>Мы ценим каждого клиента и стремимся к высокому уровню удовлетворенности. Ваше мнение очень важно для нас, поэтому мы 
-всегда открыты к обратной связи, предложениям и комментариям.</p>
-<p>Мы приглашаем вас ознакомиться с нашим ассортиментом и найти то, что идеально подойдет именно для вас. Благодарим вас за выбор нашего интернет-магазина и желаем вам приятных покупок!</p>
- </div>
- <footer style=" background-color: #333;color: #fff;padding: 20px;text-align: center;">
-        <p>&copy; 2023 Мой интернет-магазин. Все права принадлежат мне))).</p>
-        </div>
-    </footer>
- </body>
-</html>"""
-    return HttpResponse(info)
+    return render(request, 'shop/about.html')
+
+
+def contact(request):
+    logger.info("contact")
+    return render(request, 'shop/contact.html')
+
+
+# Функция создания нового клиента
+def create_client(name, email, phone, address):
+    client = Client(name=name, email=email, phone=phone, address=address)
+    client.save()
+
+
+# Функция чтения информации о клиенте по его ID
+def get_client(client_id):
+    client = Client.objects.get(id=client_id)
+    return client
+
+
+# Функция обновления информации о клиенте
+def update_client(client_id, new_name):
+    client = Client.objects.get(id=client_id)
+    client.name = new_name
+    client.save()
+
+
+# Функция удаления клиента
+def delete_client(client_id):
+    client = Client.objects.get(id=client_id)
+    client.delete()
+
+
+# Функция создания нового товара
+def create_product(title, description, price, amount):
+    product = Product(title=title, description=description, price=price, amount=amount)
+    product.save()
+
+
+# Функция чтения информации о товаре по его ID
+def get_product(product_id):
+    product = Product.objects.get(id=product_id)
+    return product
+
+
+# Функция обновления информации о товаре
+def update_product(product_id, new_title):
+    product = Product.objects.get(id=product_id)
+    product.title = new_title
+    product.save()
+
+
+# Функция удаления товара
+def delete_product(product_id):
+    product = Product.objects.get(id=product_id)
+    product.delete()
+
+
+# Функция создания нового заказа
+def create_order(client, products, total_amount):
+    order = Order(client=client, total_amount=total_amount)
+    order.save()
+    order.products.set(products)
+
+
+# Функция чтения информации о заказе по его ID
+def get_order(order_id):
+    order = Order.objects.get(id=order_id)
+    return order
+
+
+# Функция обновления информации о заказе
+def update_order(order_id, new_total_amount):
+    order = Order.objects.get(id=order_id)
+    order.total_amount = new_total_amount
+    order.save()
+
+
+# Функция удаления заказа
+def delete_order(order_id):
+    order = Order.objects.get(id=order_id)
+    order.delete()
+
+class ShowProduct(DetailView):
+    model = Product
+    template_name = 'shop/product.html'
+    slug_url_kwarg = 'post_slug'
+    context_object_name = 'post'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=context['post'])
+        return dict(list(context.items()) + list(c_def.items()))
+
