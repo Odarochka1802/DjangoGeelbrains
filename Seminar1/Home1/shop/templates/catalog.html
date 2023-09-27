@@ -1,0 +1,19 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+
+<h2>Наш ассортимент товаров</h2>
+    <ul>
+        {% for product in products %}
+        <li>
+            <h2>{{ product.title }}</h2>
+            <img src="{{product.image.url }}">
+            {{ product.description|truncatewords:50 }}
+
+            {{ product.price }} руб.
+            <div class="clear"></div>
+			<p class="link-read-post"><a href="{{ product.get_absolute_url }}">Читать пост</a></p>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
