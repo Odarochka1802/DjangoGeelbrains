@@ -1,10 +1,13 @@
 import logging
+from datetime import timedelta
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views.generic import DetailView
 
 from shop.models import Client, Product, Order
+from shop.forms import OrderForm
 
 # Create your views here.
 logger = logging.getLogger(__name__)
@@ -18,8 +21,9 @@ menu = [
 
 def index(request):
     logger.info("OK")
+    products = Product.objects.all()
 
-    return render(request, 'shop/index.html')
+    return render(request, 'shop/index.html',{'products':products})
 
 
 def catalog(request):
@@ -36,6 +40,29 @@ def about(request):
 def contact(request):
     logger.info("contact")
     return render(request, 'shop/contact.html')
+
+
+def order_list(request, client_id):
+    now = timezone.now()
+    week_ago = now - timedelta(days=7)
+    month_ago = now - timedelta(days=30)
+    year_ago = now - timedelta(days=365)
+
+    user = Client.objects.filter(pk=client_id).first()
+
+    orders_week = Order.objects.filter(client=user, time_create__gte=week_ago)
+    orders_month = Order.objects.filter(client=user, time_create__gte=month_ago)
+    orders_year = Order.objects.filter(client=user, time_create__gte=year_ago)
+
+    products_week = orders_week.values('products__title').distinct()
+    products_month = orders_month.values('products__title').distinct()
+    products_year = orders_year.values('products__title').distinct()
+
+    return render(request, 'shop/order_list.html', {
+        'products_week': products_week,
+        'products_month': products_month,
+        'products_year': products_year
+    })
 
 
 # Функция создания нового клиента
@@ -89,10 +116,20 @@ def delete_product(product_id):
 
 
 # Функция создания нового заказа
-def create_order(client, products, total_amount):
-    order = Order(client=client, total_amount=total_amount)
-    order.save()
-    order.products.set(products)
+def create_order(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Дополнительная обработка данных и создание заказа
+            return redirect('order_success')
+    else:
+        form = OrderForm()
+
+    return render(request, 'shop/order_form.html', {'form': form})
+
+def order_success(request):
+    return render(request, 'shop/order_success.html')
 
 
 # Функция чтения информации о заказе по его ID
@@ -123,4 +160,5 @@ class ShowProduct(DetailView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title=context['post'])
         return dict(list(context.items()) + list(c_def.items()))
+
 
