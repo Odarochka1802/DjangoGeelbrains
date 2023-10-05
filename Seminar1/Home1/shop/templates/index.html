@@ -9,16 +9,20 @@
            style="display: inline-block;padding: 10px 20px;background-color: #333;color: #fff;text-decoration: none;border-radius: 5px;">Купить
             сейчас</a>
     </section>
-    <section class="featured-products" style="display: flex;flex-wrap: wrap;">
-        <h2 style="margin-bottom: 10px;">Популярные товары</h2>
-        <div class="product" style="width: 25%;padding: 10px;text-align: center;">
-                <img src="product1.jpg" alt="Товар 1" style="width: 100%;max-height: 200px;object-fit: cover;margin-bottom: 10px;">
-        <h3 style="margin-bottom: 5px;">Название товара</h3>
-        <p style="margin-bottom: 20px;">Цена: $99.99</p>
+    <h2 style="text-align: center;">Популярные товары</h2><br>
+    <section class="featured-products" style="display: block;margin-left: auto; margin-right: auto;">
+
+        {% for product in products %}
+        <li style="display: block;margin-left: auto; margin-right: auto;">
+        <div class="product" style="display: block;width: 25%;padding: 10px;text-align: center;">
+                <img src="{{product.image.url }}" alt="Товар в топе" style="width: 100%;max-height: 200px;object-fit: cover;margin-bottom: 10px;">
+        <h3 style="margin-bottom: 5px;">{{ product.title}}</h3>
+        <p style="margin-bottom: 20px;">{{ product.price}}</p>
         <a href="#" class="btn"
            style="display: inline-block;padding: 10px 20px;background-color: #333;color: #fff;text-decoration: none;border-radius: 5px;">Подробнее</a>
         </div>
-
+</li>
+        {% endfor %}
     </section>
 </main>
 {% endblock %}
