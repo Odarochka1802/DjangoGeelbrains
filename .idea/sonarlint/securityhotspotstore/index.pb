@@ -85,3 +85,7 @@ M
 Task2/lect2/seminar2/views.py,a\3\a3f24d4792acbf811e35f674c39b63844f64e939
 L
 Seminar1/Home1/shop/tests.py,7\8\784466903a4fcbfbc819e829bd694ca845c1e0a7
+L
+Seminar1/Home1/Home1/urls.py,4\d\4d54c772a88534dc5307b7d4b6f6666925ff21cc
+L
+Seminar1/Home1/shop/utils.py,3\e\3e808404cb036b7503e9312ce7301b8b2529164e

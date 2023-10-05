@@ -1,0 +1,15 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+ <h1>{{ product.title }}</h1>
+
+  <img src="{{ product.image.url }}" alt="{{ product.title }}">
+
+  <p>{{ product.description }}</p>
+
+  <p>Цена: {{ product.price }}</p>
+
+  <p>Количество: {{ product.amount }}</p>
+
+{% endblock %}
+

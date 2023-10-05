@@ -27,6 +27,8 @@ class Product(models.Model):
     def __str__(self):
         return f'Title: {self.title}, description: {self.description}, price: {self.price}, amount: {self.amount}'
 
+    def get_full_description(self):
+        return f'Title: {self.title}, description: {self.description}, price: {self.price}, amount: {self.amount}'
 
 class Order(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)

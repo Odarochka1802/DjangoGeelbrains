@@ -1,34 +1,32 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+
 {% block content %}
+  <h1>Список заказов</h1>
 
-<h1>Список заказанных товаров</h1>
-
-    <h2>За последнюю неделю:</h2>
-    <ul>
-        {% for product in products_week %}
-            <li>{{ product.products__title }}</li>
-        {% empty %}
-            <li>Нет заказанных товаров</li>
-        {% endfor %}
-    </ul>
-
-    <h2>За последний месяц:</h2>
-    <ul>
-        {% for product in products_month %}
-            <li>{{ product.products__title }}</li>
-        {% empty %}
-            <li>Нет заказанных товаров</li>
-        {% endfor %}
-    </ul>
-
-    <h2>За последний год:</h2>
-    <ul>
-        {% for product in products_year %}
-            <li>{{ product.products__title }}</li>
-        {% empty %}
-            <li>Нет заказанных товаров</li>
-        {% endfor %}
-    </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Имя клиента</th>
+        <th>Адресс</th>
+        <th>Сумма</th>
+        <th>Дата создания</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.client.name }}</td>
+        <td>{{ order.client.address }}</td>
+        <td>{{ order.time_create }}</td>
+        <td>{{ order.total_amount }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">Нет доступных заказов.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
 {% endblock %}

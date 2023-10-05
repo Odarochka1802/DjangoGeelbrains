@@ -1,0 +1,37 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+  <h1>Редактировать продукт</h1>
+  
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div>
+      <label for="id_title">Название:</label>
+      <input type="text" id="id_title" name="title" value="{{ product.title }}">
+    </div>
+    
+    <div>
+      <label for="id_description">Описание:</label>
+      <textarea id="id_description" name="description">{{ product.description }}</textarea>
+    </div>
+    
+    <div>
+      <label for="id_image">Изображение:</label>
+      <input type="file" id="id_image" name="image" accept="image/*">
+    </div>
+    
+    <div>
+      <label for="id_price">Цена:</label>
+      <input type="number" id="id_price" name="price" value="{{ product.price }}">
+    </div>
+    
+    <div>
+      <label for="id_amount">Количество:</label>
+      <input type="number" id="id_amount" name="amount" value="{{ product.amount }}">
+    </div>
+    
+    <button type="submit">Сохранить</button>
+  </form>
+  
+{% endblock %}

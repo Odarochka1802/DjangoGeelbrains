@@ -12,7 +12,10 @@
 
             {{ product.price }} руб.
             <div class="clear"></div>
-			<p class="link-read-post"><a href="{{ product.get_absolute_url }}">Читать пост</a></p>
+			<p class="link-read-post"><a href="{% url 'product_detail' product_id=product.id %}">Читать пост</a></p>
+            <p class="link-read-post"><a href="{% url 'product_edit' product_id=product.id %}">Редактировать товар</a>
+</p>
+
         </li>
         {% endfor %}
     </ul>
