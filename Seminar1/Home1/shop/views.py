@@ -2,12 +2,12 @@ import logging
 from datetime import timedelta
 
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.generic import DetailView
 
 from shop.models import Client, Product, Order
-from shop.forms import OrderForm
+from shop.forms import OrderForm, ProductForm
 
 # Create your views here.
 logger = logging.getLogger(__name__)
@@ -43,26 +43,8 @@ def contact(request):
 
 
 def order_list(request, client_id):
-    now = timezone.now()
-    week_ago = now - timedelta(days=7)
-    month_ago = now - timedelta(days=30)
-    year_ago = now - timedelta(days=365)
-
-    user = Client.objects.filter(pk=client_id).first()
-
-    orders_week = Order.objects.filter(client=user, time_create__gte=week_ago)
-    orders_month = Order.objects.filter(client=user, time_create__gte=month_ago)
-    orders_year = Order.objects.filter(client=user, time_create__gte=year_ago)
-
-    products_week = orders_week.values('products__title').distinct()
-    products_month = orders_month.values('products__title').distinct()
-    products_year = orders_year.values('products__title').distinct()
-
-    return render(request, 'shop/order_list.html', {
-        'products_week': products_week,
-        'products_month': products_month,
-        'products_year': products_year
-    })
+    user_orders = Order.objects.filter(client_id=client_id)
+    return render(request, 'shop/order_list.html', {'orders': user_orders})
 
 
 # Функция создания нового клиента
@@ -103,10 +85,18 @@ def get_product(product_id):
 
 
 # Функция обновления информации о товаре
-def update_product(product_id, new_title):
-    product = Product.objects.get(id=product_id)
-    product.title = new_title
-    product.save()
+def product_edit(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('product_detail', product_id=product_id)
+    else:
+        form = ProductForm(instance=product)
+
+    return render(request, 'shop/product_edit.html', {'form': form})
 
 
 # Функция удаления товара
@@ -150,15 +140,6 @@ def delete_order(order_id):
     order = Order.objects.get(id=order_id)
     order.delete()
 
-class ShowProduct(DetailView):
-    model = Product
-    template_name = 'shop/product.html'
-    slug_url_kwarg = 'title_slug'
-    context_object_name = 'description'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title=context['description'])
-        return dict(list(context.items()) + list(c_def.items()))
-
-
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'shop/product_detail.html', {'product': product})
