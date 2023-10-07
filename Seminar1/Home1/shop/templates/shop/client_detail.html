@@ -1,0 +1,9 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+  <h1>Детали клиента</h1>
+
+  <p>Имя: {{ client.name }}</p>
+  <p>Email: {{ client.email }}</p>
+  <!-- Добавьте другие поля объекта клиента, по мере необходимости -->
+{% endblock %}

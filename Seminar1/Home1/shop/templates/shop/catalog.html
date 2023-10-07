@@ -1,7 +1,7 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 {% block content %}
-
+<h2>Общее число товаров: {{ total }}</h2>
 <h2>Наш ассортимент товаров</h2>
     <ul>
         {% for product in products %}
