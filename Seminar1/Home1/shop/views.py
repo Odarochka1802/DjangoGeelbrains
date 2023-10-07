@@ -54,10 +54,15 @@ def create_client(name, email, phone, address):
 
 
 # Функция чтения информации о клиенте по его ID
-def get_client(client_id):
-    client = Client.objects.get(id=client_id)
-    return client
+def client_detail(request, client_id):
+    client = get_object_or_404(Client, id=client_id)
+    return render(request, 'shop/client_detail.html', {'client': client})
 
+
+def client_list(request):
+    clients = Client.objects.all()
+
+    return render(request, 'shop/client_list.html', {'clients': clients})
 
 # Функция обновления информации о клиенте
 def update_client(client_id, new_name):
@@ -143,3 +148,4 @@ def delete_order(order_id):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'shop/product_detail.html', {'product': product})
+
