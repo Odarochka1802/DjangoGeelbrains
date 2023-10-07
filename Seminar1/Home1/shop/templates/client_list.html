@@ -1,0 +1,29 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+  <h1>Список клиентов</h1>
+
+  <ul>
+    {% for client in clients %}
+      <li>
+        <a href="{% url 'client_detail' client.id %}">{{ client.name }}</a>
+        <p>Email: {{ client.email }}</p>
+        <p>Адрес: {{ client.address }}</p>
+
+        <ul>
+          {% for order in client.order_set.all %}
+            <li>
+              Заказ: {{ order.id }},
+              Итоговая стоимость: {{ order.total_amount }}
+            </li>
+          {% empty %}
+            <li>Нет доступных заказов для этого клиента.</li>
+          {% endfor %}
+        </ul>
+
+      </li>
+    {% empty %}
+      <li>Нет доступных клиентов.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
